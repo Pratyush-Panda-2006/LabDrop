@@ -24,6 +24,7 @@ const BUCKET_NAME = process.env.SUPABASE_BUCKET || 'lab-notebooks';
 // Known PIN to Name mapping
 const KNOWN_USERS: Record<string, string> = {
   '141106': 'Pratyush Panda',
+  '963121': 'Ashutosh Kumar',
 };
 
 app.use(cors());
@@ -45,7 +46,7 @@ const metaCache: Map<
     uploaderName?: string;
     pin?: string;
     originalName?: string;
-    created_at?: string;
+    created_at?: string | null;
   }
 > = new Map();
 
@@ -264,7 +265,7 @@ app.get('/api/files', async (req: Request, res: Response) => {
                 uploaderName: parsed.uploaderName || 'Pratyush Panda',
                 pin: parsed.pin || '141106',
                 originalName: displayName,
-                created_at: parsed.created_at || f.created_at,
+                created_at: parsed.created_at || f.created_at || undefined,
               };
               metaCache.set(f.name, meta);
             }
@@ -274,7 +275,7 @@ app.get('/api/files', async (req: Request, res: Response) => {
               uploaderName: 'Pratyush Panda',
               pin: '141106',
               originalName: displayName,
-              created_at: f.created_at,
+              created_at: f.created_at || undefined,
             };
           }
         }

@@ -46,8 +46,15 @@ export const LiquidGlassCard: React.FC<LiquidGlassCardProps> = ({ mode }) => {
     text: string;
   } | null>(null);
 
-  // Auto-fill or suggest name if owner PIN is entered
+  // Known PIN to Name mapping
+  const KNOWN_PIN_USERS: Record<string, string> = {
+    '141106': 'Pratyush Panda',
+    '963121': 'Ashutosh Kumar',
+  };
+
+  // Auto-fill or suggest name if owner or known PIN is entered
   const isOwnerPin = pin === '141106';
+  const defaultUserName = KNOWN_PIN_USERS[pin] || '';
 
   // Handle PIN input strictly (6 digits max)
   const handlePinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -126,8 +133,8 @@ export const LiquidGlassCard: React.FC<LiquidGlassCardProps> = ({ mode }) => {
     formData.append('file', selectedFile);
     formData.append('pin', pin);
     
-    // Set uploader name: if owner pin, default to Pratyush Panda unless custom is entered
-    const finalUploader = uploaderName.trim() || (isOwnerPin ? 'Pratyush Panda' : 'Lab Student');
+    // Set uploader name: default to recognized PIN user (Owner/Friend) unless custom is entered
+    const finalUploader = uploaderName.trim() || defaultUserName || 'Lab Student';
     formData.append('uploaderName', finalUploader);
 
     if (comment.trim()) {
@@ -415,7 +422,13 @@ export const LiquidGlassCard: React.FC<LiquidGlassCardProps> = ({ mode }) => {
                       type="text"
                       value={uploaderName}
                       onChange={(e) => setUploaderName(e.target.value)}
-                      placeholder={isOwnerPin ? 'Pratyush Panda (Owner)' : 'Your Name (e.g. Pratyush Panda, Rohan)...'}
+                      placeholder={
+                        isOwnerPin
+                          ? 'Pratyush Panda (Owner)'
+                          : defaultUserName
+                          ? `${defaultUserName}`
+                          : 'Your Name (e.g. Ashutosh Kumar, Rohan)...'
+                      }
                       className="w-full bg-transparent outline-none text-xs font-sans text-vault-dark placeholder:text-vault-muted/70 font-medium"
                       maxLength={50}
                     />

@@ -321,7 +321,7 @@ export const Dashboard: React.FC = () => {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by file name, uploader name (e.g. Pratyush), or notes..."
+                placeholder="Search by file name, uploader name (e.g. Pratyush, Ashutosh), or notes..."
                 className="w-full bg-white border border-black/10 rounded-full pl-10 pr-4 py-2.5 text-sm outline-none focus:border-black transition-all shadow-sm"
               />
             </div>
