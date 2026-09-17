@@ -31,6 +31,10 @@ const BUCKET_NAME = process.env.SUPABASE_BUCKET || 'lab-notebooks';
 const KNOWN_USERS: Record<string, string> = {
   '141106': 'Pratyush Panda',
   '963121': 'Ashutosh Kumar',
+  '212733': 'Ankit Kumar Nayak',
+  '132730': 'Ankit Mahanta',
+  '129038': 'Sourabh Ranjan Mirdha',
+  '101807': 'Aditya Narayan Padhi',
 };
 
 app.use(cors());

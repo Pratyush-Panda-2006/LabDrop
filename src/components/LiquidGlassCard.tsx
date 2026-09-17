@@ -50,6 +50,10 @@ export const LiquidGlassCard: React.FC<LiquidGlassCardProps> = ({ mode }) => {
   const KNOWN_PIN_USERS: Record<string, string> = {
     '141106': 'Pratyush Panda',
     '963121': 'Ashutosh Kumar',
+    '212733': 'Ankit Kumar Nayak',
+    '132730': 'Ankit Mahanta',
+    '129038': 'Sourabh Ranjan Mirdha',
+    '101807': 'Aditya Narayan Padhi',
   };
 
   // Auto-fill or suggest name if owner or known PIN is entered
