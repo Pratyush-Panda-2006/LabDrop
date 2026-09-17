@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { VaultMode } from './types';
 import { Navbar } from './components/Navbar';
@@ -20,17 +20,47 @@ const GithubIcon = () => (
 
 function LabDropHome() {
   const [mode, setMode] = useState<VaultMode>('upload');
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    // Ensure mobile browsers (iOS Safari / Android Chrome) autoplay muted video
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // If low-power mode or battery-saver blocks video autoplay,
+          // the CSS poster background image remains instantly visible.
+        });
+      }
+    }
+  }, []);
 
   return (
-    <section className="relative min-h-svh w-full overflow-hidden">
-      {/* Looping Background Video (z-0) */}
+    <section
+      className="relative min-h-svh w-full overflow-hidden bg-[#ebe6df] bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: 'url(/bg-poster.webp)',
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+      }}
+    >
+      {/* Looping Background Video (z-0) with faststart streaming */}
       <video
+        ref={videoRef}
         autoPlay
         muted
         loop
         playsInline
+        preload="auto"
+        poster="/bg-poster.webp"
         className="absolute inset-0 w-full h-full object-cover z-0"
       >
+        <source
+          src="https://zjskhqgggcnvtzkurolh.supabase.co/storage/v1/object/public/lab-notebooks/assets/bg-loop.mp4"
+          type="video/mp4"
+        />
         <source
           src="https://pollen-batch-41236914.figma.site/_components/v2/f0ee2dae7671c170c34f12e31c4cb41418976c98/769c564298c132f7919405cd9f17c1b1231f341d.769c5642.mp4"
           type="video/mp4"
