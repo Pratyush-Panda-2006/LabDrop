@@ -12,7 +12,7 @@
 
 <br />
 
-**LabDrop** is a secure, single-page lab transfer vault engineered to transfer Jupyter Notebooks (`.ipynb`), Python (`.py`), Java (`.java`), and code files safely between untrusted college/work laboratory computers and personal hostel laptops without logging into personal email, Google Drive, or GitHub accounts on shared lab machines.
+**LabDrop** is a secure, single-page lab transfer vault engineered to transfer Jupyter Notebooks (`.ipynb`), Python (`.py`), Java (`.java`), and code files safely between untrusted college/work laboratory computers and personal devices without logging into personal email, Google Drive, or GitHub accounts on shared lab machines.
 
 </div>
 
@@ -21,14 +21,13 @@
 ## ✨ Features
 
 - 💎 **Liquid-Glass Aesthetics**: Full-viewport hero with looping background video, top gradient fade, and frosted glass prompt card with backdrop blur.
-- 🔐 **6-Digit Master PIN Isolation**: Each student can use their own 6-digit PIN to securely upload and retrieve their own isolated files.
-- 🛡️ **Zero Password Manager Prompts**: Custom numeric masking prevents Google Chrome / 1Password / browser autofill from popping up or storing lab machine passwords.
-- 📊 **Owner Dashboard (`/dashboard`)**: Dedicated PIN-free management dashboard showing who uploaded each file, exact timestamps (date and time), lab notes, 1-click downloads, and permanent delete controls.
+- 🔐 **Private Session Isolation**: Users can use a private 6-digit numeric code to securely upload and retrieve isolated files.
+- 🛡️ **Zero Password Manager Prompts**: Custom numeric masking prevents Google Chrome, 1Password, or other browser autofill tools from triggering or saving credentials on shared lab machines.
 - 💬 **Drag & Drop Notes**: Attach experiment comments, task numbers, or lab run notes during upload.
 - 📁 **Multi-Format Support**: Designed for Jupyter Notebooks (`.ipynb`) with support for Python (`.py`), Java (`.java`), C++, and other laboratory files.
-- ☁️ **Supabase Cloud Storage**: Stores files in your private Supabase Storage bucket (`lab-notebooks`).
-- ⚡ **Deployable on Vercel**: Fully configured with `vercel.json` and serverless API endpoints.
-- 🔄 **Keep-Alive Automation**: Built-in GitHub Action workflow (`.github/workflows/keep-alive.yml`) to ping Supabase every 3 days and prevent free-tier project pausing.
+- ☁️ **Cloud Storage Integration**: Stores files securely in private cloud storage.
+- ⚡ **Deployable on Vercel**: Fully configured with serverless API endpoints.
+- 🔄 **Keep-Alive Automation**: Built-in GitHub Action workflow to maintain cloud services active.
 
 ---
 
@@ -36,30 +35,22 @@
 
 ### 1. Clone & Install
 ```bash
-git clone https://github.com/Pratyush-Panda-2006/LabControl.git
-cd LabControl
+git clone https://github.com/Pratyush-Panda-2006/LabDrop.git
+cd LabDrop
 npm install
 ```
 
 ### 2. Configure Environment Variables
-Create a `.env` file in the project root:
-```env
-APP_PIN=141106
-PORT=3001
-
-# Supabase Storage Configuration
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-supabase-key
-SUPABASE_BUCKET=lab-notebooks
+Copy the example environment configuration file to create your local `.env`:
+```bash
+cp .env.example .env
 ```
+Fill in your required environment parameters in `.env`.
 
 ### 3. Run Development Server
 ```bash
 npm run dev
 ```
-- **Web Interface**: `http://localhost:5173/`
-- **Owner Dashboard**: `http://localhost:5173/dashboard`
-- **Express Backend**: `http://localhost:3001/api`
 
 ---
 
@@ -67,12 +58,10 @@ npm run dev
 
 | Method | Endpoint | Description |
 |---|---|---|
-| `POST` | `/api/upload` | Uploads file buffer, PIN, uploader name, and optional comment to Supabase Storage |
-| `GET` | `/api/files?pin=141106` | Retrieves only files uploaded with the specified PIN |
-| `GET` | `/api/files?dashboard=true` | Returns all uploaded files with uploader names and timestamps (no PIN required) |
+| `POST` | `/api/upload` | Uploads file buffer with security code and optional comment |
+| `GET` | `/api/files` | Retrieves files associated with the current session |
 | `GET` | `/api/download/:fileKey` | Streams raw file download directly to the browser |
-| `DELETE` | `/api/files/:fileKey` | Permanently deletes a file and its companion metadata |
-| `GET` | `/api/health` | Health check endpoint for uptime monitoring |
+| `GET` | `/api/health` | Service health check endpoint |
 
 ---
 
@@ -80,12 +69,8 @@ npm run dev
 
 1. Push your repository to GitHub.
 2. Import the repository into **[Vercel](https://vercel.com/)**.
-3. Under **Project Settings ➔ Environment Variables**, add:
-   - `APP_PIN`: `141106`
-   - `NEXT_PUBLIC_SUPABASE_URL`: `https://your-project.supabase.co`
-   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`: `your-supabase-key`
-   - `SUPABASE_BUCKET`: `lab-notebooks`
-4. Click **Deploy**. Vercel will automatically build the Vite SPA and deploy the `/api` serverless backend using `vercel.json`.
+3. Under **Project Settings ➔ Environment Variables**, configure your required environment variables.
+4. Click **Deploy**. Vercel will automatically build the Vite SPA and deploy the serverless API backend.
 
 ---
 
