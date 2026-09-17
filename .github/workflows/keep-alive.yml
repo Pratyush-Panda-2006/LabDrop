@@ -1,0 +1,39 @@
+name: Supabase Keep Alive
+
+on:
+  schedule:
+    # Runs every 3 days at midnight UTC to prevent Supabase free-tier project from pausing
+    - cron: '0 0 */3 * *'
+  workflow_dispatch:
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase Storage & Rest API
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          APP_URL: ${{ secrets.APP_URL }}
+        run: |
+          echo "Starting Supabase keep-alive ping..."
+          
+          if [ -n "$SUPABASE_URL" ]; then
+            echo "Pinging Supabase REST API endpoint..."
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" -H "apikey: $SUPABASE_ANON_KEY" "$SUPABASE_URL/rest/v1/")
+            echo "Supabase REST Status Code: $STATUS"
+
+            echo "Pinging Supabase Storage endpoint..."
+            STORAGE_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -H "apikey: $SUPABASE_ANON_KEY" "$SUPABASE_URL/storage/v1/bucket")
+            echo "Supabase Storage Status Code: $STORAGE_STATUS"
+          else
+            echo "SUPABASE_URL secret is not set. Skipping direct Supabase ping."
+          fi
+
+          if [ -n "$APP_URL" ]; then
+            echo "Pinging deployed Vault application health endpoint..."
+            APP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$APP_URL/api/health")
+            echo "Vault App Status Code: $APP_STATUS"
+          fi
+
+          echo "Keep-alive ping cycle completed successfully."
