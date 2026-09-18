@@ -36,6 +36,7 @@ const KNOWN_USERS: Record<string, string> = {
   '129038': 'Sourabh Ranjan Mirdha',
   '101807': 'Aditya Narayan Padhi',
   '123456': 'Everyone Local',
+  '206969': 'Bikashindu Barik',
 };
 
 app.use(cors());
