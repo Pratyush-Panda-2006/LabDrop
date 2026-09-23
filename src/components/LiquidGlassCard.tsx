@@ -57,6 +57,7 @@ export const LiquidGlassCard: React.FC<LiquidGlassCardProps> = ({ mode }) => {
     '123456': 'Everyone Local',
     '206969': 'Bikashindu Barik',
     '130807': 'Sai Swarup Mahapatra',
+    '807060': 'Harsh Raj',
   };
 
   // Auto-fill or suggest name if owner or known PIN is entered
