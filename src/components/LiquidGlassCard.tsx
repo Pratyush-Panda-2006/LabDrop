@@ -56,7 +56,7 @@ export const LiquidGlassCard: React.FC<LiquidGlassCardProps> = ({ mode }) => {
     '101807': 'Aditya Narayan Padhi',
     '123456': 'Everyone Local',
     '206969': 'Bikashindu Barik',
-    '130807': 'Sai Swarup Mahapatra',
+    '130807': 'Sai Swarup Mohapatra',
     '807060': 'Harsh Raj',
     '230407': 'Prayash Das',
   };
