@@ -74,13 +74,5 @@ npm run dev
 
 ---
 
-## 👤 Author
-
-**Pratyush Panda**
-- **LinkedIn**: [linkedin.com/in/pratyush-panda2006](https://www.linkedin.com/in/pratyush-panda2006)
-- **GitHub**: [github.com/Pratyush-Panda-2006](https://github.com/Pratyush-Panda-2006)
-
----
-
 ## 📄 License
 This project is licensed under the MIT License.
